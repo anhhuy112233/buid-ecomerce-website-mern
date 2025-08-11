@@ -1,6 +1,7 @@
 import React from "react";
 import { Col } from "antd";
 import Search from "antd/es/transfer/search";
+import ButtonInputSearch from "../ButtonInputSearch/ButtonInputSearch";
 import {
   WrapperHeader,
   WrapperTextHeader,
@@ -21,14 +22,13 @@ const HeaderComponent = () => {
           <WrapperTextHeader>NOVATEACH</WrapperTextHeader>
         </Col>
         <Col span={12}>
-          <Search
-            placeholder="input search text"
-            allowClear
-            enterButton="Search"
-            size="large"
+          <ButtonInputSearch
+            Size="large"
+            textButton="Tìm kiếm"
+            placeholder="Input search text"
           />
         </Col>
-        <Col span={6} style={{ display: "flex", gap: "20px" }}>
+        <Col span={6} style={{ display: "flex", gap: "20px", alignItems: "center" }}>
           <WrapperHeaderAccount>
             <UserOutlined style={{ fontSize: "25px" }} />
             <div>
