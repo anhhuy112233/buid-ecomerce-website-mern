@@ -23,14 +23,14 @@ const HeaderComponent = () => {
         </Col>
         <Col span={12}>
           <ButtonInputSearch
-            Size="large"
+            size="large"
             textButton="Tìm kiếm"
             placeholder="Input search text"
           />
         </Col>
         <Col span={6} style={{ display: "flex", gap: "20px", alignItems: "center" }}>
           <WrapperHeaderAccount>
-            <UserOutlined style={{ fontSize: "25px" }} />
+            <UserOutlined style={{ fontSize: "30px" }} />
             <div>
               <WrapperTextHeaderSmall>Đăng nhập/Đăng ký</WrapperTextHeaderSmall>
               <div>
