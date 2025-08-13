@@ -3,7 +3,7 @@ import { Button } from "antd";
 
 const ButtonComponent = ({
   size,
-  bordered,
+  variant,
   style,
   icon,
   children,
@@ -12,7 +12,7 @@ const ButtonComponent = ({
   return (
     <Button
       size={size}
-      bordered={bordered}
+      variant={variant}
       style={style}
       icon={icon}
       {...rest}
