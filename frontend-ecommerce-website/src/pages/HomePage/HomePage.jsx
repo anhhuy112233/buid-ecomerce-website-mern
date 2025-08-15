@@ -1,6 +1,8 @@
 import React from "react";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
+import CardComponent from "../../components/CardComponent/CardComponent";
+import NavbarComponent from "../../components/NavbarComponent/NavbarComponent";
 import { WrapperTypeProduct } from "./style";
 import slider1 from "../../assets/images/Slider1.jpg";
 import slider2 from "../../assets/images/Slider2.jpg";
@@ -20,9 +22,27 @@ const HomePage = () => {
       </div>
       <div
         id="container"
-        style={{ backgroundColor: "#efefef", padding: "0 120px" }}
+        style={{
+          backgroundColor: "#efefef",
+          padding: "0 120px",
+          height: "10000px",
+        }}
       >
-        <SliderComponent arrImages={[slider1, slider2, slider3, slider4]} />
+        <div>
+          <SliderComponent arrImages={[slider1, slider2, slider3, slider4]} />
+        </div>
+        <div
+          style={{
+            marginTop: "30px",
+            display: "flex",
+            gap: "20px",
+          }}
+        >
+          <CardComponent />
+          <CardComponent />
+          <CardComponent />
+        </div>
+        <NavbarComponent />
       </div>
     </>
   );
