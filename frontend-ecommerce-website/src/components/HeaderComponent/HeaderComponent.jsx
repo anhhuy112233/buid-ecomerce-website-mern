@@ -13,6 +13,7 @@ import {
   CaretDownOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
+import { Badge } from "antd";
 
 const HeaderComponent = () => {
   return (
@@ -28,7 +29,10 @@ const HeaderComponent = () => {
             placeholder="Input search text"
           />
         </Col>
-        <Col span={6} style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <Col
+          span={6}
+          style={{ display: "flex", gap: "20px", alignItems: "center" }}
+        >
           <WrapperHeaderAccount>
             <UserOutlined style={{ fontSize: "30px" }} />
             <div>
@@ -40,7 +44,11 @@ const HeaderComponent = () => {
             </div>
           </WrapperHeaderAccount>
           <div>
-            <ShoppingCartOutlined style={{ fontSize: "25px", color: "#fff" }} />
+            <Badge count={5} size="small">
+              <ShoppingCartOutlined
+                style={{ fontSize: "25px", color: "#fff" }}
+              />
+            </Badge>
             <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
           </div>
         </Col>

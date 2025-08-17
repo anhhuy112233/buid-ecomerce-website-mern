@@ -64,11 +64,11 @@ const NavbarComponent = () => {
 
   return (
     <div>
-      <WrapperLableText style={{ marginTop: "20px" }}>Lable</WrapperLableText>
+      <WrapperLableText style={{}}>Lable</WrapperLableText>
       <WrapperContent>
         {RenderContent("text", ["Tu Lanh", "TV", "Dieu Hoa"])}
       </WrapperContent>
-      <WrapperLableText style={{ marginTop: "20px" }}>Lable</WrapperLableText>
+      <WrapperLableText style={{}}>Lable</WrapperLableText>
       <WrapperContent>
         {RenderContent("checkbox", [
           { value: "a", label: "A" },
@@ -77,9 +77,9 @@ const NavbarComponent = () => {
           { value: "d", label: "D" },
         ])}
       </WrapperContent>
-      <WrapperLableText style={{ marginTop: "20px" }}>Lable</WrapperLableText>
+      <WrapperLableText style={{}}>Lable</WrapperLableText>
       <WrapperContent>{RenderContent("star", [3, 4, 5])}</WrapperContent>
-      <WrapperLableText style={{ marginTop: "20px" }}>Lable</WrapperLableText>
+      <WrapperLableText style={{}}>Lable</WrapperLableText>
       <WrapperContent>
         {RenderContent("price", [10000, 20000, 30000])}
       </WrapperContent>

@@ -5,19 +5,22 @@ const ButtonComponent = ({
   size,
   variant,
   style,
+  styleButton,
   icon,
   children,
+  textButton,
+  type,
   ...rest
 }) => {
   return (
     <Button
       size={size}
-      variant={variant}
-      style={style}
+      variant={variant || type}
+      style={{ ...style, ...styleButton }}
       icon={icon}
       {...rest}
     >
-      {children}
+      {textButton || children}
     </Button>
   );
 };
