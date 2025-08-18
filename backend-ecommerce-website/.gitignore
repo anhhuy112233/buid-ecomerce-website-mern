@@ -1,0 +1,61 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs
+*.log
+logs/*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Runtime data
+coverage/
+.nyc_output/
+lib-cov/
+
+# Production builds
+dist/
+build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors/IDE
+.vscode/
+.idea/
+
+# Caches
+.cache/
+.eslintcache
+.parcel-cache/
+tmp/
+temp/
+
+# TypeScript
+*.tsbuildinfo
+
+# PM2
+.pm2/
+.pmx/
+.pids/
+
+# Uploaded files (runtime)
+src/uploads/
+uploads/
+
+# Misc
+*.orig
+*.rej
+
