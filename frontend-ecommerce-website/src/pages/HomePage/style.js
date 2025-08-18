@@ -6,7 +6,6 @@ export const WrapperTypeProduct = styled.div`
   align-items: center;
   gap: 24px;
   justify-content: flex-start;
-  border-bottom: 1px solid #ccc;
   height: 44px;
 `;
 
@@ -36,6 +35,6 @@ export const WrapperProducts = styled.div`
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px;
   justify-content: space-between;
 `;

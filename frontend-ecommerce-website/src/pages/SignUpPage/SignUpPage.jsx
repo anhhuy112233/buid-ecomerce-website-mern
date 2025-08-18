@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   WrapperContainerLeft,
   WrapperContainerRight,
@@ -6,11 +6,26 @@ import {
 } from "./style";
 import InputForm from "../../components/InputForm/InputForm";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import { LoginOutlined } from "@ant-design/icons";
+import {
+  LoginOutlined,
+  EyeFilled,
+  EyeInvisibleFilled,
+} from "@ant-design/icons";
 import { Image } from "antd";
 import imageLogo from "../../assets/images/tiki.png";
 
 const SignUpPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
+  const handleToggleConfirmPassword = () => {
+    setIsShowConfirmPassword(!isShowConfirmPassword);
+  };
+
   return (
     <div
       style={{
@@ -37,8 +52,51 @@ const SignUpPage = () => {
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
           />
-          <InputForm placeholder="password" style={{ marginBottom: "10px" }} />
-          <InputForm placeholder="confirm password" />
+          <div style={{ position: "relative" }}>
+            <InputForm
+              placeholder="Mật khẩu"
+              type={isShowPassword ? "text" : "password"}
+              style={{ marginBottom: "10px" }}
+            />
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={handleTogglePassword}
+            >
+              {isShowPassword ? (
+                <EyeFilled style={{ fontSize: "16px", color: "#666" }} />
+              ) : (
+                <EyeInvisibleFilled style={{ fontSize: "16px", color: "#666" }} />
+              )}
+            </span>
+          </div>
+          <div style={{ position: "relative" }}>
+            <InputForm
+              placeholder="Xác nhận mật khẩu"
+              type={isShowConfirmPassword ? "text" : "password"}
+            />
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={handleToggleConfirmPassword}
+            >
+              {isShowConfirmPassword ? (
+                <EyeFilled style={{ fontSize: "16px", color: "#666" }} />
+              ) : (
+                <EyeInvisibleFilled style={{ fontSize: "16px", color: "#666" }} />
+              )}
+            </span>
+          </div>
           <ButtonComponent
             size="large"
             style={{

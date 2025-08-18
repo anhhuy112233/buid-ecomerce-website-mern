@@ -5,7 +5,7 @@ export const WrapperProducts = styled.nav`
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   justify-content: space-between;
 `;
 
@@ -16,4 +16,5 @@ export const WrapperNavbar = styled(Col)`
   border-radius: 4px;
   margin-top: 20px;
   height: fit-content;
+  width: 200px;
 `;

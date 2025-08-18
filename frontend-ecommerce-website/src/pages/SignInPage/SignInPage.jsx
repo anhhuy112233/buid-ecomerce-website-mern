@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   WrapperContainerLeft,
@@ -7,11 +7,21 @@ import {
 } from "./style";
 import InputForm from "../../components/InputForm/InputForm";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import { LoginOutlined } from "@ant-design/icons";
+import {
+  EyeFilled,
+  EyeInvisibleFilled,
+  LoginOutlined,
+} from "@ant-design/icons";
 import { Image } from "antd";
 import imageLogo from "../../assets/images/tiki.png";
 
 const SignInPage = () => {
+  const [isShowPassWord, setIsShowPassWord] = useState(false);
+
+  const handleTogglePassword = () => {
+    setIsShowPassWord(!isShowPassWord);
+  };
+
   return (
     <div
       style={{
@@ -38,7 +48,31 @@ const SignInPage = () => {
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
           />
-          <InputForm placeholder="password" />
+          <div style={{ position: "relative" }}>
+            <InputForm
+              placeholder="Mật khẩu"
+              type={isShowPassWord ? "text" : "password"}
+              style={{ marginBottom: "10px" }}
+            />
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={handleTogglePassword}
+            >
+              {isShowPassWord ? (
+                <EyeFilled style={{ fontSize: "16px", color: "#666" }} />
+              ) : (
+                <EyeInvisibleFilled
+                  style={{ fontSize: "16px", color: "#666" }}
+                />
+              )}
+            </span>
+          </div>
           <ButtonComponent
             size="large"
             style={{

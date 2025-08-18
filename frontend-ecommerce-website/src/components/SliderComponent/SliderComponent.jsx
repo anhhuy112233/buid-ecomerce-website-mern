@@ -1,6 +1,8 @@
 import React from "react";
-import Slider from "react-slick";
 import { Image } from "antd";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { WrapperSliderStyle, SliderContainer } from "./style";
 
 const SliderComponent = ({ arrImages }) => {
   var settings = {
@@ -14,9 +16,10 @@ const SliderComponent = ({ arrImages }) => {
     pauseOnHover: true,
     arrows: true,
   };
+  
   return (
-    <div style={{ margin: "0 0" }}>
-      <Slider {...settings}>
+    <SliderContainer>
+      <WrapperSliderStyle {...settings}>
         {arrImages.map((image, index) => {
           return (
             <div key={index}>
@@ -24,13 +27,12 @@ const SliderComponent = ({ arrImages }) => {
                 src={image}
                 alt={`slider-${index}`}
                 preview={false}
-                style={{ width: "100%", height: "247px", objectFit: "cover" }}
               />
             </div>
           );
         })}
-      </Slider>
-    </div>
+      </WrapperSliderStyle>
+    </SliderContainer>
   );
 };
 
