@@ -242,6 +242,48 @@ const getUserById = async (req, res) => {
   }
 };
 
+// [POST] /api/users/refresh-token
+// Cấp mới access_token từ refresh_token
+const refreshToken = async (req, res) => {
+  try {
+    // Ưu tiên lấy từ body
+    let refreshTokenInput = req.body?.refresh_token;
+
+    // Nếu không có trong body, thử lấy từ Authorization: Bearer <refresh_token>
+    if (!refreshTokenInput) {
+      const authHeader = req.headers["authorization"] || req.headers["Authorization"];
+      if (authHeader && typeof authHeader === "string") {
+        const parts = authHeader.split(" ");
+        if (parts.length === 2 && parts[0] === "Bearer") {
+          refreshTokenInput = parts[1];
+        }
+      }
+    }
+
+    // Nếu vẫn chưa có, fallback header 'token' (có thể kèm Bearer)
+    if (!refreshTokenInput) {
+      const headerToken = req.headers["token"];
+      if (headerToken && typeof headerToken === "string") {
+        refreshTokenInput = headerToken.startsWith("Bearer ")
+          ? headerToken.slice(7)
+          : headerToken;
+      }
+    }
+
+    if (!refreshTokenInput) {
+      return res.status(400).json({ status: "ERROR", message: "Thiếu refresh token" });
+    }
+
+    const result = await UserService.refreshAccessToken(refreshTokenInput);
+    return res.status(200).json(result);
+  } catch (e) {
+    const status = e.statusCode || 500;
+    return res
+      .status(status)
+      .json({ status: "ERROR", message: e.message || "Lỗi server" });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -249,4 +291,5 @@ module.exports = {
   deleteUser,
   getAllUsers,
   getUserById,
+  refreshToken,
 };

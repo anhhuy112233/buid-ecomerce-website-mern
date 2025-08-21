@@ -14,6 +14,9 @@ router.post("/sign-up", userController.createUser);
 // [POST] /api/users
 // Mục đích: đăng nhập
 router.post("/sign-in", userController.loginUser);
+// [POST] /api/users/refresh-token
+// Mục đích: cấp access_token mới từ refresh_token
+router.post("/refresh-token", userController.refreshToken);
 // [PUT] /api/users
 // Mục đích: cập nhật lại thông tin tài khoản của user
 router.put("/update-user/:id", userController.updateUser);

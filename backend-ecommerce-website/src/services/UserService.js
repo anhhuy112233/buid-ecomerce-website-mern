@@ -1,6 +1,10 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/UserModel");
-const { generateAccessToken, generateRefreshToken } = require("./JwtService");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} = require("./JwtService");
 const mongoose = require("mongoose");
 
 // Tạo mới người dùng
@@ -190,6 +194,57 @@ const getUserById = async (userId) => {
   }
 };
 
+// Cấp mới access_token (và xoay refresh_token) từ refresh_token hợp lệ
+const refreshAccessToken = async (refreshTokenInput) => {
+  try {
+    if (!refreshTokenInput) {
+      const error = new Error("Thiếu refresh token");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    let payload;
+    try {
+      payload = verifyRefreshToken(refreshTokenInput);
+    } catch (e) {
+      const error = new Error("Refresh token không hợp lệ hoặc đã hết hạn");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const user = await User.findById(payload.userId);
+    if (!user) {
+      const error = new Error("Không tìm thấy user");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (user.refresh_token !== refreshTokenInput) {
+      const error = new Error("Refresh token không khớp");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
+
+    user.access_token = newAccessToken;
+    user.refresh_token = newRefreshToken;
+    await user.save();
+
+    return {
+      status: "OK",
+      message: "Cấp token mới thành công",
+      data: {
+        access_token: newAccessToken,
+        refresh_token: newRefreshToken,
+      },
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -197,4 +252,5 @@ module.exports = {
   deleteUser,
   getAllUsers,
   getUserById,
+  refreshAccessToken,
 };
