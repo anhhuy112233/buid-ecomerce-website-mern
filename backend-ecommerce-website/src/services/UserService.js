@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/UserModel");
 const { generateAccessToken, generateRefreshToken } = require("./JwtService");
+const mongoose = require("mongoose");
 
 // Tạo mới người dùng
 const createUser = async (userData) => {
@@ -53,12 +54,11 @@ const createUser = async (userData) => {
       message: "Tạo user thành công",
       data: userResponse,
     };
-
   } catch (error) {
     if (error.code === 11000) {
       throw new Error("Email đã tồn tại trong hệ thống");
     }
-    
+
     throw error;
   }
 };
@@ -75,7 +75,10 @@ const loginUser = async (userLogin) => {
     }
 
     // So sánh mật khẩu
-    const isPasswordMatch = await bcrypt.compare(password, existingUser.password);
+    const isPasswordMatch = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (!isPasswordMatch) {
       throw new Error("Email hoặc mật khẩu không đúng");
     }
@@ -107,6 +110,53 @@ const loginUser = async (userLogin) => {
   }
 };
 
+// Cập nhật thông tin người dùng
+const updateUser = async (userId, data) => {
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      throw new Error("Không tìm thấy user");
+    }
+
+    const updateUser = await User.findByIdAndUpdate(userId, data, {
+      new: true,
+    });
+    console.log("updateUser", updateUser);
+
+    return {
+      status: "OK",
+      message: "Lấy thông tin user thành công",
+      data: user,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Xóa người dùng
+const deleteUser = async (userId) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      const error = new Error("ID người dùng không hợp lệ");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (!deletedUser) {
+      const error = new Error("Không tìm thấy user");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return {
+      status: "OK",
+      message: "Xoá user thành công",
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Lấy danh sách tất cả users (không bao gồm password)
 const getAllUsers = async () => {
@@ -129,7 +179,7 @@ const getUserById = async (userId) => {
     if (!user) {
       throw new Error("Không tìm thấy user");
     }
-    
+
     return {
       status: "OK",
       message: "Lấy thông tin user thành công",
@@ -143,6 +193,8 @@ const getUserById = async (userId) => {
 module.exports = {
   createUser,
   loginUser,
+  updateUser,
+  deleteUser,
   getAllUsers,
   getUserById,
 };

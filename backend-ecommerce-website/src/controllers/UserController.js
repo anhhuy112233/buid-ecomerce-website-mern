@@ -6,7 +6,8 @@ const UserService = require("../services/UserService");
 
 // [POST] /api/users
 // Nhận dữ liệu người dùng từ client và trả về JSON xác nhận
-const createUser = async (req, res) => {  
+// Tạo người dùng mới
+const createUser = async (req, res) => {
   try {
     // Lấy dữ liệu từ request body - nội dung yêu cầu
     const { name, email, password, confirmPassword, phone } = req.body;
@@ -52,13 +53,12 @@ const createUser = async (req, res) => {
 
     // Nếu validation pass, gọi service để tạo user
     console.log("Validation passed, creating user:", { name, email, phone });
-    
+
     const result = await UserService.createUser(req.body);
     return res.status(201).json(result);
-
   } catch (e) {
     console.error("Error in createUser:", e);
-    
+
     // Xử lý lỗi từ service
     if (e.message.includes("Email đã tồn tại")) {
       return res.status(400).json({
@@ -66,7 +66,7 @@ const createUser = async (req, res) => {
         message: e.message,
       });
     }
-    
+
     return res.status(500).json({
       status: "ERROR",
       message: e?.message || "Lỗi server",
@@ -74,8 +74,10 @@ const createUser = async (req, res) => {
   }
 };
 
-
-const loginUser = async (req, res) => {  
+// [POST] /api/users
+// Nhận dữ liệu người dùng từ client và trả về JSON xác nhận
+// Đăng nhập với tài khoản của người dùng
+const loginUser = async (req, res) => {
   try {
     // Lấy dữ liệu từ request body - nội dung yêu cầu
     const { name, email, password, confirmPassword, phone } = req.body;
@@ -121,13 +123,12 @@ const loginUser = async (req, res) => {
 
     // Nếu validation pass, gọi service để tạo user
     console.log("Validation passed, creating user:", { name, email, phone });
-    
+
     const result = await UserService.loginUser(req.body);
     return res.status(201).json(result);
-
   } catch (e) {
     console.error("Error in createUser:", e);
-    
+
     // Xử lý lỗi từ service
     if (e.message.includes("Email đã tồn tại")) {
       return res.status(400).json({
@@ -135,7 +136,66 @@ const loginUser = async (req, res) => {
         message: e.message,
       });
     }
-    
+
+    return res.status(500).json({
+      status: "ERROR",
+      message: e?.message || "Lỗi server",
+    });
+  }
+};
+
+// [PUT] /api/users
+// Nhận dữ liệu người dùng từ client và trả về JSON xác nhận
+// Cập nhật lại thông tin của người dùng
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const data = req.body;
+    console.log("userId", userId);
+    if (!userId) {
+      return res.status(200).json({
+        status: "ERROR",
+        message: e?.message || "The userId is required",
+      });
+    }
+    const result = await UserService.updateUser(userId, data);
+    return res.status(200).json(result);
+  } catch (e) {
+    console.error("Error in createUser:", e);
+
+    return res.status(500).json({
+      status: "ERROR",
+      message: e?.message || "Lỗi server",
+    });
+  }
+};
+
+// [DELETE] /api/users
+// Nhận dữ liệu người dùng từ client và trả về JSON xác nhận
+// Xoá người dùng
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const token = req.headers;
+    if (!userId) {
+      return res.status(400).json({
+        status: "ERROR",
+        message: "Thiếu tham số userId",
+      });
+    }
+
+    const result = await UserService.deleteUser(userId);
+    return res.status(200).json(result);
+  } catch (e) {
+    console.error("Error in deleteUser:", e);
+
+    if (e.statusCode === 400) {
+      return res.status(400).json({ status: "ERROR", message: e.message });
+    }
+    if (e.statusCode === 404 || e.message?.includes("Không tìm thấy")) {
+      return res.status(404).json({ status: "ERROR", message: e.message });
+    }
+
     return res.status(500).json({
       status: "ERROR",
       message: e?.message || "Lỗi server",
@@ -167,14 +227,14 @@ const getUserById = async (req, res) => {
     return res.status(200).json(result);
   } catch (e) {
     console.error("Error in getUserById:", e);
-    
+
     if (e.message.includes("Không tìm thấy")) {
       return res.status(404).json({
         status: "ERROR",
         message: e.message,
       });
     }
-    
+
     return res.status(500).json({
       status: "ERROR",
       message: e?.message || "Lỗi server",
@@ -185,6 +245,8 @@ const getUserById = async (req, res) => {
 module.exports = {
   createUser,
   loginUser,
+  updateUser,
+  deleteUser,
   getAllUsers,
   getUserById,
 };
