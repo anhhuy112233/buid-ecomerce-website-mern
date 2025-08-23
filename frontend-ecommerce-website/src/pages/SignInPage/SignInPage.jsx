@@ -14,12 +14,35 @@ import {
 } from "@ant-design/icons";
 import { Image } from "antd";
 import imageLogo from "../../assets/images/tiki.png";
+import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
+  const navigate = useNavigate();
+  const handleNavigateSignUp = () => {
+    navigate("/sign-up");
+  };
+
   const [isShowPassWord, setIsShowPassWord] = useState(false);
 
   const handleTogglePassword = () => {
     setIsShowPassWord(!isShowPassWord);
+  };
+
+  // Thêm state cho email
+  const [email, setEmail] = useState("");
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  // Thêm state cho password
+  const [password, setPassword] = useState("");
+  const handleOnchangePassword = (value) => {
+    setPassword(value);
+  };
+
+  // Handler cho đăng nhập
+  const handleSignIn = () => {
+    console.log("sign-in", email, password);
   };
 
   return (
@@ -47,12 +70,16 @@ const SignInPage = () => {
           <InputForm
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
+            value={email}
+            handleOnchange={handleOnchangeEmail}
           />
           <div style={{ position: "relative" }}>
             <InputForm
               placeholder="Mật khẩu"
               type={isShowPassWord ? "text" : "password"}
               style={{ marginBottom: "10px" }}
+              value={password}
+              handleOnchange={handleOnchangePassword}
             />
             <span
               style={{
@@ -74,6 +101,8 @@ const SignInPage = () => {
             </span>
           </div>
           <ButtonComponent
+            disabled={!email.length || !password.length}
+            onClick={handleSignIn}
             size="large"
             style={{
               backgroundColor: "#1a95ff",
@@ -93,7 +122,13 @@ const SignInPage = () => {
             <WrapperTextLight>Quên mật khẩu?</WrapperTextLight>
           </p>
           <p>
-            Chưa có tài khoản <WrapperTextLight>Tạo tài khoản</WrapperTextLight>
+            Chưa có tài khoản{" "}
+            <WrapperTextLight
+              onClick={handleNavigateSignUp}
+              style={{ cursor: "pointer" }}
+            >
+              Tạo tài khoản
+            </WrapperTextLight>
           </p>
         </WrapperContainerLeft>
         <WrapperContainerRight>
