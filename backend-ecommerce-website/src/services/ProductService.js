@@ -48,6 +48,10 @@ const getAllProducts = async (limit, page, sort, filter) => {
       if (filter.type) {
         query = query.where('type', filter.type);
       }
+      if (filter.name) {
+        // Tìm kiếm theo tên sản phẩm (không phân biệt hoa thường)
+        query = query.where('name', { $regex: filter.name, $options: 'i' });
+      }
       if (filter.minPrice || filter.maxPrice) {
         let priceFilter = {};
         if (filter.minPrice) priceFilter.$gte = filter.minPrice;

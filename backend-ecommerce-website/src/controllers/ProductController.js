@@ -31,7 +31,7 @@ const createProduct = async (req, res) => {
 // Lấy tất cả sản phẩm với pagination, sorting và filtering
 const getAllProducts = async (req, res) => {
   try {
-    const { limit = 10, page = 1, sort, type, minPrice, maxPrice, rating } = req.query;
+    const { limit = 10, page = 1, sort, type, minPrice, maxPrice, rating, name } = req.query;
 
     // Xử lý filter
     const filter = {};
@@ -41,6 +41,7 @@ const getAllProducts = async (req, res) => {
       filter.maxPrice = maxPrice;
     }
     if (rating) filter.rating = rating;
+    if (name) filter.name = name;
 
     const result = await ProductService.getAllProducts(
       parseInt(limit),
