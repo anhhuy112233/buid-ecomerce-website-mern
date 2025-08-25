@@ -79,14 +79,14 @@ const createUser = async (req, res) => {
 // Đăng nhập với tài khoản của người dùng
 const loginUser = async (req, res) => {
   try {
-    // Lấy dữ liệu từ request body - nội dung yêu cầu
-    const { name, email, password, confirmPassword, phone } = req.body;
+    // Lấy dữ liệu từ request body - chỉ cần email và password
+    const { email, password } = req.body;
 
     // Kiểm tra các trường bắt buộc
-    if (!name || !email || !password || !confirmPassword || !phone) {
+    if (!email || !password) {
       return res.status(400).json({
         status: "ERROR",
-        message: "Thiếu thông tin bắt buộc",
+        message: "Email và mật khẩu là bắt buộc",
         data: req.body,
       });
     }
@@ -103,34 +103,16 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Kiểm tra password và confirmPassword có giống nhau không
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        status: "ERROR",
-        message: "Mật khẩu xác nhận không khớp",
-        data: { password, confirmPassword },
-      });
-    }
-
-    // Kiểm tra độ dài password (tối thiểu 6 ký tự)
-    if (password.length < 6) {
-      return res.status(400).json({
-        status: "ERROR",
-        message: "Mật khẩu phải có ít nhất 6 ký tự",
-        data: { passwordLength: password.length },
-      });
-    }
-
-    // Nếu validation pass, gọi service để tạo user
-    console.log("Validation passed, creating user:", { name, email, phone });
+    // Nếu validation pass, gọi service để đăng nhập
+    console.log("Validation passed, logging in user:", { email });
 
     const result = await UserService.loginUser(req.body);
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   } catch (e) {
-    console.error("Error in createUser:", e);
+    console.error("Error in loginUser:", e);
 
     // Xử lý lỗi từ service
-    if (e.message.includes("Email đã tồn tại")) {
+    if (e.message.includes("Email không tồn tại") || e.message.includes("Mật khẩu không đúng")) {
       return res.status(400).json({
         status: "ERROR",
         message: e.message,
